@@ -80,6 +80,4 @@ pip3 install PyQt5
 echo "Installing OpenSSH"
 apt install openssh-server -y
 sed -i 's/#Port 22/Port 2220/' /etc/ssh/sshd_config
-systemctl restart ssh
-
-
+systemctl restart sshd
