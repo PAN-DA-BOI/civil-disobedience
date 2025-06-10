@@ -1,5 +1,7 @@
 #!/bin/sh
 echo "Installing"
+sudo apt update
+sudo apt upgrade
 
 #get display working
 echo "Installing display drivers"
