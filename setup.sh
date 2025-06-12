@@ -69,8 +69,8 @@ sudo systemctl start my_gui.service
 
 # Install Python and necessary libraries
 echo "Installing Python and necessary libraries..."
-sudo apt install -y python3 python3-pip
-pip3 install PyQt5
+sudo apt install -y python3
+sudo apt install python3-pyqt5
 
 # Open up SSH on port 2220
 echo "Installing and configuring OpenSSH..."
