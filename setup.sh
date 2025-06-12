@@ -1,13 +1,15 @@
 #!/bin/sh
-echo "Installing"
-apt update
-apt upgrade
 
-#get display working
-echo "Installing display drivers"
-apt install -y device-tree-compiler
+echo "Installing and updating packages..."
+sudo apt update
+sudo apt upgrade -y
 
-cat <<EOT > ili9488-overlay.dts
+echo "Installing display drivers..."
+sudo apt install -y device-tree-compiler
+
+# Create and compile the Device Tree Overlay for ILI9488
+echo "Creating and compiling Device Tree Overlay for ILI9488..."
+cat <<EOT | sudo tee ili9488-overlay.dts > /dev/null
 /dts-v1/;
 /plugin/;
 
@@ -38,15 +40,16 @@ cat <<EOT > ili9488-overlay.dts
 };
 EOT
 
-dtc -@ -I dts -O dtb -o ili9488-overlay.dtbo ili9488-overlay.dts
-mv ili9488-overlay.dtbo /boot/overlays/
+sudo dtc -@ -I dts -O dtb -o ili9488-overlay.dtbo ili9488-overlay.dts
+sudo mv ili9488-overlay.dtbo /boot/overlays/
 
 # Configure the bootloader
 echo "Configuring the bootloader..."
-echo "overlays=spi-spidev ili9488" | tee -a /boot/armbianEnv.txt
-echo "param_spidev_spi_bus=1" | tee -a /boot/armbianEnv.txt
+echo "overlays=spi-spidev ili9488" | sudo tee -a /boot/armbianEnv.txt
+echo "param_spidev_spi_bus=1" | sudo tee -a /boot/armbianEnv.txt
 
-
+# Create a systemd service to run the Python script on boot
+echo "Creating a systemd service to run the Python script on boot..."
 SERVICE_CONTENT="[Unit]
 Description=My Python GUI
 After=multi-user.target
@@ -59,26 +62,24 @@ User=$(whoami)
 [Install]
 WantedBy=multi-user.target"
 
-echo "$SERVICE_CONTENT" | tee /etc/systemd/system/my_gui.service > /dev/null
+echo "$SERVICE_CONTENT" | sudo tee /etc/systemd/system/my_gui.service > /dev/null
 
-systemctl enable my_gui.service
-systemctl start my_gui.service
+sudo systemctl enable my_gui.service
+sudo systemctl start my_gui.service
 
-echo "Setup complete. Please reboot your device."
-
-#remove desktop envi
-echo "removing desktop enviroment"
-
-
-#get python up and working
-echo "Installing python"
-apt install -y python3 python3-pip
+# Install Python and necessary libraries
+echo "Installing Python and necessary libraries..."
+sudo apt install -y python3 python3-pip
 pip3 install PyQt5
 
-
 # Open up SSH on port 2220
-echo "Installing OpenSSH"
-apt install openssh-server -y
-sed -i 's/#Port 22/Port 2220/' /etc/ssh/sshd_config
-systemctl restart sshd
-mv ./xinitrc /etc/X11/xinit/
+echo "Installing and configuring OpenSSH..."
+sudo apt install -y openssh-server
+sudo sed -i 's/#Port 22/Port 2220/' /etc/ssh/sshd_config
+sudo systemctl restart ssh
+
+# Remove desktop environment
+echo "Removing desktop environment..."
+sudo mv ./xinitrc /etc/X11/xinit/
+
+echo "Setup complete. Please reboot your device."
