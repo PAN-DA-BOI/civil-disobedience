@@ -81,3 +81,4 @@ echo "Installing OpenSSH"
 apt install openssh-server -y
 sed -i 's/#Port 22/Port 2220/' /etc/ssh/sshd_config
 systemctl restart sshd
+mv ./xinitrc /etc/X11/xinit/
