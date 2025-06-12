@@ -70,6 +70,6 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = QMainWindow()
+    main_window = MainWindow()
     main_window.show()
     sys.exit(app.exec_())
