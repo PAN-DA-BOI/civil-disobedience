@@ -1,13 +1,10 @@
-#include "arduino_secrets.h"
-
-/*
- */
-
 #include <SPI.h>
 #include <SD.h>
 
-const int chipSelect = 10;
+File myFile;
 
+// change this to match your SD shield or module;
+const int chipSelect = 10;
 
 void setup()
 {
@@ -59,7 +56,7 @@ void setup()
   }
 }
 
-
-void loop() {
-    
+void loop()
+{
+  // nothing happens after setup
 }
