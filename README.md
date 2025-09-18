@@ -1,4 +1,4 @@
 # civil disobedience
-being civilly disobedient
+being civilly disobedient (silly-like in some aspects even)
 
 
