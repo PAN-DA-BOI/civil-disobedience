@@ -1,0 +1,14 @@
+control center:
+smooth conections between all boards
+
+HUD:
+gas art
+cold art
+hot art
+ui
+
+PPE:
+atachment points
+
+BlackBox:
+info logging in 4 differant files
